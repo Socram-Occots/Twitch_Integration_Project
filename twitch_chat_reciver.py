@@ -5,9 +5,7 @@
 # https://www.learndatasci.com/tutorials/how-stream-text-data-twitch-sockets-python/
 #
 #imports
-from glob import escape
 import socket
-sock = socket.socket()
 import logging
 from emoji import demojize
 from datetime import datetime
@@ -15,20 +13,23 @@ import re
 import pandas as pd
 import csv 
 import threading
+import sys
+import os
 
-
+sock = socket.socket()
 server = 'irc.chat.twitch.tv'
 port = 6667
 nickname = 'Mongon'
 token = 'oauth:1mp5k0btjh7dci0klpsxdzg5k65g3b'
 channel = '#m0ng0n'
 
-escape = None
+escaper = None
+infile = None
 
 # creating log file
 logging.basicConfig(level=logging.DEBUG,
-                 format='%(asctime)s — %(message)s',
-                 datefmt='%Y-%m-%d_%H:%M:%S',
+                format='%(asctime)s — %(message)s',
+                datefmt='%Y-%m-%d_%H:%M:%S',
                 handlers=[logging.FileHandler('chat.log', encoding='utf-8')])
 
 def main():
@@ -41,13 +42,12 @@ def main():
     sock_to_twitch()
     #loggingtwitchchat()
     recieving_twitchchat_thread = threading.Thread(target = receivingtwitchchat)
-    escape_route_thread = threading.Thread(target = escape_route, args=escape)
+    escape_route_thread = threading.Thread(target = escape_route)
 
     recieving_twitchchat_thread.start()
     escape_route_thread.start()
 
     
-
 
 def sock_to_twitch():
     sock.connect((server, port))
@@ -58,59 +58,67 @@ def sock_to_twitch():
 
 
 def receivingtwitchchat():
-    while escape != "Y":
+    global escaper
+    while True:
         resp = demojize(
             sock.recv(2048).decode('utf-8')
         )
-        
-        print(resp) # remover print
-        
+        print(resp) # remove print
+            
         if resp.startswith('PING'):
             sock.send("PONG\n".encode('utf-8'))
-        
-        sorting_each_chat(resp)
-    '''
+            
         elif len(resp) > 0:
             logging.info(demojize(resp))
-            '''
-
-        
-        
-
+            
+        sorting_each_chat(resp)
+            
 
 def initialize_csv_file():
+    global infile
     try:
-        open('mongon_chat_history.csv', 'r', encoding='UTF8')
+        infile = open('mongon_chat_history.csv', 'r', encoding='UTF8')
     except Exception:
-        open('mongon_chat_history.csv', 'w', encoding='UTF8')
+         infile = open('mongon_chat_history.csv', 'w', encoding='UTF8')
 
 
 def sorting_each_chat(resp):
     header = ['dt', 'channel', 'username', 'message']
+    try:
 
-    time_logged = resp.split('—')[0].strip()
-    time_logged = datetime.strptime(time_logged, '%Y-%m-%d_%H:%M:%S')
+        time_logged = resp.split('—')[0].strip()
+        print(time_logged)
+        time_logged = datetime.strptime(time_logged, '%Y-%m-%d_%H:%M:%S')
 
-    username_message = resp.split('—')[1:]
-    username_message = '—'.join(username_message).strip()
+        username_message = resp.split('—')[1:]
+        username_message = '—'.join(username_message).strip()
 
-    username, channel, message = re.search(
-          ':(.*)\!.*@.*\.tmi\.twitch\.tv PRIVMSG #(.*) :(.*)', username_message
-    ).groups()
+        username, channel, message = re.search(
+            ':(.*)\!.*@.*\.tmi\.twitch\.tv PRIVMSG #(.*) :(.*)', username_message
+        ).groups()
+        
+        
+        d = {'dt': time_logged, 'channel': channel, 'username': username, 'message': message}
+        with open('mongon_chat_history.csv', 'a', newline='', encoding='utf-8') as file:
 
-    d = {'dt': time_logged, 'channel': channel, 'username': username, 'message': message}
-    with open('mongon_chat_history.csv', 'a', newline='', encoding='utf-8') as file:
+            
+            writer = csv.DictWriter(file, fieldnames = header)
+            writer.writerow(d)
+        
+    except ValueError:
+        pass
 
-        writer = csv.DictWriter(file, fieldnames = header)
-        writer.writerow(d)
 
+def escape_route():
+    global infile
+    global escaper
+    global sock
+    while escaper != "Y":
+        escaper = str(input("Exit now? Enter \'Y\': \n")).strip()
+    sock.close()
+    infile.close()
+    os._exit(os.X_OK)
 
-
-def escape_route(escape):
-    while escape != "Y":
-        escape = str(input("Exit now? Enter \'Y\': ")).strip()
-
-   
 
 '''
 def get_chat_dataframe(file):
@@ -139,7 +147,6 @@ def get_chat_dataframe(file):
     return pd.DataFrame().from_records(data)     
     '''
 
-       
 
 #def loggingtwitchchat():
 #   logging.info(receivingtwitchchat.resp)
@@ -154,7 +161,6 @@ def get_chat_dataframe(file):
     username, channel, message = re.search
         (':(.*)\!.*@.*\.tmi\.twitch\.tv PRIVMSG #(.*) :(.*)', username_message).groups()
     """
-
 
 
 main()
