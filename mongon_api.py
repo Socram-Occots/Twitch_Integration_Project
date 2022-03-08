@@ -10,11 +10,12 @@ import pandas as pd
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
-infile = None
+dfchat = None
 
-def initialize_csv_file():
-    global infile
-    infile = open('mongon_chat_history.csv', 'r', encoding='UTF8')
+def main():
+    amogusfinder()
+
+    app.run()
 
 '''
 books = [
@@ -72,4 +73,29 @@ def api_id():
     return jsonify(results)
 '''
 
-app.run()
+main()
+
+def initialize_csv_file():
+    global dfchat
+    dfchat = pd.read_csv("@")
+
+def amogusfinder():
+    name = None
+    @app.route('/amogus', methods=['GET'])
+    def amogusget():
+        global dfchat
+        try:
+            return dfchat[dfchat[name]].count()
+        except:
+            return "ERROR YOU FUCKED UP"
+
+def amogusfinder():
+    name = None
+    @app.route('/amogus', methods=['GET'])
+    def amogusget():
+        global dfchat
+        try:
+            return dfchat[(dfchat["username"] == name) & (dfchat["message"] == "amogus") 
+                & (dfchat["username"] == name)].count()
+        except:
+            return "ERROR YOU FUCKED UP"
