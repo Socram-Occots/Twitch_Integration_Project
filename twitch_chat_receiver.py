@@ -6,9 +6,9 @@
 #
 #imports
 import socket
-import logging
 from emoji import demojize
 from datetime import datetime
+import pytz
 import re
 import pandas as pd
 import csv 
@@ -23,14 +23,8 @@ nickname = 'Mongon'
 token = 'oauth:1mp5k0btjh7dci0klpsxdzg5k65g3b'
 channel = '#m0ng0n'
 
-escaper = None
 infile = None
-
-# creating log file
-logging.basicConfig(level=logging.DEBUG,
-                format='%(asctime)s — %(message)s',
-                datefmt='%Y-%m-%d_%H:%M:%S',
-                handlers=[logging.FileHandler('chat.log',mode='w', encoding='utf-8')])
+escaper = None
 
 def main():
 
@@ -52,17 +46,10 @@ def sock_to_twitch():
 
 
 def receivingtwitchchat():
-    global escaper
     while True:
-        resp = sock.recv(2048).decode('utf-8')
-        print(resp) # remove print
-            
-        if resp.startswith('PING'):
-            sock.send("PONG\n".encode('utf-8'))
-            
-        elif len(resp) > 0:
-            logging.info(demojize(resp))
-            
+        
+        resp = sock.recv(2048).decode('utf-8').strip()
+        print(resp) # remove print     
         sorting_each_chat(resp)
             
 
@@ -80,27 +67,22 @@ def initialize_csv_file():
 
 def sorting_each_chat(resp):
     header = ['dt', 'channel', 'username', 'message']
-    with open("chat.log", 'r', encoding='utf-8') as f:
-          lines = f.read().split('\n\n\n')
-    for line in lines:
-        try:
-            time_logged = line.split('—')[0].strip()
-            time_logged = datetime.strptime(time_logged, '%Y-%m-%d_%H:%M:%S')
+    try:
+        tz_CH = pytz.timezone('America/New_York') 
+        datetime_CH = datetime.now(tz_CH)
+        time_logged = datetime_CH.strftime("%Y-%m-%d_%H:%M:%S")
 
-            username_message = line.split('—')[1:]
-            username_message = '—'.join(username_message).strip()
+        username, channel, message = re.search(
+            ':(.*)\!.*@.*\.tmi\.twitch\.tv PRIVMSG #(.*) :(.*)', resp
+        ).groups()
+        
+        d = {'dt': time_logged, 'channel': channel, 'username': username, 'message': message}
+        with open('mongon_chat_history.csv', 'a', newline='', encoding='utf-8') as file:
 
-            username, channel, message = re.search(
-                ':(.*)\!.*@.*\.tmi\.twitch\.tv PRIVMSG #(.*) :(.*)', username_message
-            ).groups()
-            
-            d = {'dt': time_logged, 'channel': channel, 'username': username, 'message': message}
-            with open('mongon_chat_history.csv', 'a', newline='', encoding='utf-8') as file:
-
-                writer = csv.DictWriter(file, fieldnames = header)
-                writer.writerow(d)  
-        except Exception:
-            pass
+            writer = csv.DictWriter(file, fieldnames = header)
+            writer.writerow(d)  
+    except Exception as e:
+        pass
 
 
 def escape_route():
