@@ -30,7 +30,7 @@ infile = None
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s — %(message)s',
                 datefmt='%Y-%m-%d_%H:%M:%S',
-                handlers=[logging.FileHandler('chat.log', encoding='utf-8')])
+                handlers=[logging.FileHandler('chat.log',mode='w', encoding='utf-8')])
 
 def main():
 

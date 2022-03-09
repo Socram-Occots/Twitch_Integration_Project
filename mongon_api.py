@@ -7,16 +7,85 @@ import flask
 from flask import request, jsonify
 import pandas as pd
 
+# link: http://127.0.0.1:5000/
+
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
-dfchat = None
+path = r"C:\Users\socra\OneDrive\Documents\College\twitch-integration-project\Twitch_Integration_Project\mongon_chat_history.csv"
+
+def retrieve_database():
+    return pd.read_csv(path)
+
+
+def amogusfinder():
+    dfchat = retrieve_database()
+    variants = ["amogus", "among us", "amog us"]
+
+    @app.route('/amogus', methods=['GET'])
+    def amogusget():
+        if 'name' in request.args:
+            name = str(request.args['name'])
+        else:
+            return "{no name!}"
+        try:
+            dfusername = dfchat[(dfchat["username"] == name)]
+            dfstring = dfusername[dfusername["message"].str.contains('|'.join(variants), 
+                na=False, case=False, regex=True)]
+            return str(dfstring["message"].count())
+        except:
+            return "{ERROR Mongon FUCKED UP HIS PROGRAM (failed look-up)}"
+
+
+def susfinder():
+    dfchat = retrieve_database()
+    variants = ["sus", "sussy", "susy", "$u$"]
+
+    @app.route('/sus', methods=['GET'])
+    def susget():
+        if 'name' in request.args:
+            name = str(request.args['name'])
+        else:
+            return "{no name!}"
+        try:
+            dfusername = dfchat[(dfchat["username"] == name)]
+            dfstring = dfusername[dfusername["message"].str.contains('|'.join(variants), 
+                na=False, case=False, regex=True)]
+            return str(dfstring["message"].count())
+        except:
+            return "{ERROR Mongon FUCKED UP HIS PROGRAM (failed look-up)}"
+
+
+def bakafinder():
+    dfchat = retrieve_database()
+    variants = ["baka", "b4k4"]
+
+    @app.route('/baka', methods=['GET'])
+    def bakaget():
+        if 'name' in request.args:
+            name = str(request.args['name'])
+        else:
+            return "{no name!}"
+        try:
+            dfusername = dfchat[(dfchat["username"] == name)]
+            dfstring = dfusername[dfusername["message"].str.contains('|'.join(variants), 
+                na=False, case=False, regex=True)]
+            return str(dfstring["message"].count())
+        except:
+            return "{ERROR Mongon FUCKED UP HIS PROGRAM (failed look-up)}"
+
 
 def main():
     amogusfinder()
-
+    susfinder()
+    bakafinder()
     app.run()
 
+
+main()
+
+
+# unused
 '''
 books = [
     {'id': 0,
@@ -73,29 +142,13 @@ def api_id():
     return jsonify(results)
 '''
 
-main()
 
-def initialize_csv_file():
-    global dfchat
-    dfchat = pd.read_csv("@")
+'''
+def countingString(dfstring, variants):
+    count = 0
+    for subStr in variants:
+        if subStr in dfstring:
+            count += 1
+    return count
+'''
 
-def amogusfinder():
-    name = None
-    @app.route('/amogus', methods=['GET'])
-    def amogusget():
-        global dfchat
-        try:
-            return dfchat[dfchat[name]].count()
-        except:
-            return "ERROR YOU FUCKED UP"
-
-def amogusfinder():
-    name = None
-    @app.route('/amogus', methods=['GET'])
-    def amogusget():
-        global dfchat
-        try:
-            return dfchat[(dfchat["username"] == name) & (dfchat["message"] == "amogus") 
-                & (dfchat["username"] == name)].count()
-        except:
-            return "ERROR YOU FUCKED UP"
