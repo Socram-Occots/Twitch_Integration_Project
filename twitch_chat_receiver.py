@@ -20,38 +20,47 @@ sock = socket.socket()
 server = 'irc.chat.twitch.tv'
 port = 6667
 nickname = 'Mongon'
-token = 'oauth:1mp5k0btjh7dci0klpsxdzg5k65g3b'
+token = None
 channel = '#m0ng0n'
+
+with open(r"C:\Users\socra\Desktop\twitchauth.txt","r") as file:
+    token = file.readlines()[0]
 
 infile = None
 escaper = None
 
 def main():
 
-    escape_route_thread = threading.Thread(target = escape_route)
-    escape_route_thread.start()
+    #escape_route_thread = threading.Thread(target = escape_route)
+    #escape_route_thread.start()
     initialize_csv_file()
+    #recieving_twitchchat_thread = threading.Thread(target = sock_to_twitch)
+    #recieving_twitchchat_thread.start()
     sock_to_twitch()
-    recieving_twitchchat_thread = threading.Thread(target = receivingtwitchchat)
-    recieving_twitchchat_thread.start()
-
     
 
 def sock_to_twitch():
-    sock.connect((server, port))
+    while True:
+        try:
+            sock.connect((server, port))
 
-    sock.send(f"PASS {token}\n".encode('utf-8'))
-    sock.send(f"NICK {nickname}\n".encode('utf-8'))
-    sock.send(f"JOIN {channel}\n".encode('utf-8'))
+            sock.send(f"PASS {token}\n".encode('utf-8'))
+            sock.send(f"NICK {nickname}\n".encode('utf-8'))
+            sock.send(f"JOIN {channel}\n".encode('utf-8'))
+            break
+        except Exception as ConnectionResetError:
+            print("Connection Error... Retrying\n")
+            continue
+    receivingtwitchchat()
+    
 
 
 def receivingtwitchchat():
     while True:
-        
         resp = sock.recv(2048).decode('utf-8').strip()
         print(resp) # remove print     
         sorting_each_chat(resp)
-            
+        
 
 def initialize_csv_file():
     global infile
@@ -83,6 +92,7 @@ def sorting_each_chat(resp):
             writer.writerow(d)  
     except Exception as e:
         pass
+        
 
 
 def escape_route():

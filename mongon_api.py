@@ -26,14 +26,7 @@ def escape_route():
     while escaper != "Y":
         escaper = str(input("Exit now? Enter \'Y\': \n")).strip()
     os._exit(os.X_OK)
-    
-'''
-def retrieve_database():
-    global dfchat
-    while True:
-        time.sleep(0.1)
-        dfchat = pd.read_csv(path)
-'''
+
 
 def amogusfinder():
     variants = ["amogus", "among us", "amog us"]
@@ -70,7 +63,7 @@ def susfinder():
                 na=False, case=False, regex=True)]
             return str(dfstring["message"].count())
         except Exception as e:
-            return f"ERROR Mongon FUCKED UP HIS PROGRAM (failed look-up) {e} {dfchat} {data.dfchat}"
+            return f"ERROR Mongon FUCKED UP HIS PROGRAM (failed look-up)"
 
 
 def bakafinder():
@@ -91,15 +84,38 @@ def bakafinder():
             return "{ERROR Mongon FUCKED UP HIS PROGRAM (failed look-up)}"
 
 
+def wordfinder():
+    @app.route('/word', methods=['GET'])
+    def wordget():
+        dfchat = pd.read_csv(path)
+
+        if 'name' in request.args:
+            name = str(request.args['name'])
+        else:
+            return "{no name!}"
+
+        if 'word' in request.args:
+            word = str(request.args['word'])
+        else:
+            return "{no word!}"
+            
+        try:
+            dfusername = dfchat[(dfchat["username"] == name)]
+            dfstring = dfusername[dfusername["message"].str.contains(word, 
+                na=False, case=False, regex=True)]
+            return str(dfstring["message"].count())
+        except:
+            return "{ERROR Mongon FUCKED UP HIS PROGRAM (failed look-up)}"
+
+
 def main():
     global dfchat
-    escape_route_thread = threading.Thread(target = escape_route)
-    escape_route_thread.start()
-    #escape_route_thread = threading.Thread(target = retrieve_database)
-    #escape_route_thread.start()
+    # escape_route_thread = threading.Thread(target = escape_route)
+    # escape_route_thread.start()
     amogusfinder()
     susfinder()
     bakafinder()
+    wordfinder()
     app.run()
 
 
