@@ -74,3 +74,46 @@ dt,channel,username,message
 2022-03-10_19:35:10,m0ng0n,m0ng0n,test
 2022-03-10_19:35:50,m0ng0n,m0ng0n,!wordcount name word
 2022-03-10_19:35:57,m0ng0n,streamelements,name has said word RequestError: connect ECONNREFUSED 0.0.0.0:5000 times!
+test,test,test,TEST
+test,test,test,TEST
+test,test,test,TEST
+test,test,test,TEST
+test,test,test,TEST
+2022-03-12_22:44:49,m0ng0n,m0ng0n,test
+2022-03-12_22:44:54,m0ng0n,m0ng0n,?
+2022-03-12_22:44:56,m0ng0n,m0ng0n,oh
+2022-03-12_22:44:58,m0ng0n,m0ng0n,ok
+2022-03-12_22:45:00,m0ng0n,m0ng0n,cool
+2022-03-12_22:47:03,m0ng0n,m0ng0n,test
+2022-03-12_22:47:05,m0ng0n,m0ng0n,etst
+2022-03-12_22:47:39,m0ng0n,m0ng0n,!wordcount m0ng0n test
+2022-03-12_22:47:39,m0ng0n,streamelements,m0ng0n has said test 18 times!
+2022-03-12_22:47:50,m0ng0n,m0ng0n,test
+2022-03-12_22:48:01,m0ng0n,m0ng0n,!wordcount m0ng0n test
+2022-03-12_22:48:01,m0ng0n,streamelements,m0ng0n has said test 20 times!
+2022-03-12_22:48:48,m0ng0n,m0ng0n,!wordcout streamelements .
+2022-03-12_22:48:56,m0ng0n,m0ng0n,!wordcount streamelements .
+2022-03-12_22:48:56,m0ng0n,streamelements,streamelements has said . 7 times!
+2022-03-12_22:49:05,m0ng0n,m0ng0n,!wordcout streamelements .
+2022-03-12_22:49:14,m0ng0n,m0ng0n,!wordcount streamelements .
+2022-03-12_22:49:15,m0ng0n,streamelements,streamelements has said . 8 times!
+2022-03-12_22:49:25,m0ng0n,m0ng0n,!wordcount streamelements .
+2022-03-12_22:49:25,m0ng0n,streamelements,streamelements has said . 9 times!
+2022-03-12_22:49:54,m0ng0n,m0ng0n,!amogus m0ng0n
+2022-03-12_22:50:56,m0ng0n,m0ng0n,!amoguscount
+2022-03-12_22:50:56,m0ng0n,streamelements,"m0ng0n has said ""amogus"" {number} times, ""sussy"" {number} times, and ""baka"" {number} times."
+2022-03-12_22:54:11,m0ng0n,m0ng0n,!amoguscount
+2022-03-12_22:54:12,m0ng0n,streamelements,"m0ng0n has said ""amogus"" {customapi.https://www.pythonanywhere.com/amogus} times, ""sussy"" {customapi.https://www.pythonanywhere.com/sus} times, and ""baka"" {customapi.https://www.pythonanywhere.com/baka} times."
+2022-03-12_22:54:41,m0ng0n,m0ng0n,!amoguscount
+2022-03-12_22:54:42,m0ng0n,streamelements,"m0ng0n has said ""amogus"" <!DOCTYPE html><html lang=""en"" style=""height: 100%"">    <head>        <meta charset=""utf-8"">        <title>Page not found: PythonAnywhere</title>        <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">        <meta name=""description"" content=""Page not found: PythonAnywhere"">        <meta name=""author"" content=""PythonAnywhere LLP"">        <meta name=""google-site-verif times, ""sussy"" <!DOCTYPE html><html lang=""en"" style=""height: 100%"">    <head>"
+2022-03-12_22:54:42,m0ng0n,streamelements,"<meta charset=""utf-8"">        <title>Page not found: PythonAnywhere</title>        <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">        <meta name=""description"" content=""Page not found: PythonAnywhere"">        <meta name=""author"" content=""PythonAnywhere LLP"">        <meta name=""google-site-verif times, and ""baka"" <!DOCTYPE html><html lang=""en"" style=""height: 100%"">    <head>        <meta charset=""utf-8"">        <title>Page not found: PythonAnywhere</title>"
+2022-03-12_22:54:42,m0ng0n,streamelements,"<meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">        <meta name=""description"" content=""Page not found: PythonAnywhere"">        <meta name=""author"" content=""PythonAnywhere LLP"">        <meta name=""google-site-verif times."
+2022-03-12_22:55:57,m0ng0n,m0ng0n,!amoguscount
+2022-03-12_22:55:58,m0ng0n,streamelements,"m0ng0n has said ""amogus"" <!DOCTYPE html><html lang=""en"" style=""height: 100%"">    <head>        <meta charset=""utf-8"">        <title>Page not found: PythonAnywhere</title>        <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">        <meta name=""description"" content=""Page not found: PythonAnywhere"">        <meta name=""author"" content=""PythonAnywhere LLP"">        <meta name=""google-site-verif times, ""sussy"" <!DOCTYPE html><html lang=""en"" style=""height: 100%"">    <head>"
+2022-03-12_22:55:58,m0ng0n,streamelements,"<meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">        <meta name=""description"" content=""Page not found: PythonAnywhere"">        <meta name=""author"" content=""PythonAnywhere LLP"">        <meta name=""google-site-verif times."
+2022-03-12_22:55:58,m0ng0n,streamelements,"<meta charset=""utf-8"">        <title>Page not found: PythonAnywhere</title>        <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">        <meta name=""description"" content=""Page not found: PythonAnywhere"">        <meta name=""author"" content=""PythonAnywhere LLP"">        <meta name=""google-site-verif times, and ""baka"" <!DOCTYPE html><html lang=""en"" style=""height: 100%"">    <head>        <meta charset=""utf-8"">        <title>Page not found: PythonAnywhere</title>"
+2022-03-12_22:57:39,m0ng0n,m0ng0n,!amoguscount
+2022-03-12_22:57:40,m0ng0n,streamelements,"m0ng0n has said ""amogus"" 6 times, ""sussy"" 9 times, and ""baka"" 0 times."
+2022-03-12_22:57:46,m0ng0n,m0ng0n,baka
+2022-03-12_22:57:49,m0ng0n,m0ng0n,!amoguscount
+2022-03-12_22:57:49,m0ng0n,streamelements,"m0ng0n has said ""amogus"" 6 times, ""sussy"" 9 times, and ""baka"" 1 times."
