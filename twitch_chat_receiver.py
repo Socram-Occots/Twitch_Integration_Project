@@ -16,7 +16,11 @@ import threading
 import sys
 import os
 import requests
+import win32gui, win32con
 
+# hiding python terminal
+min = win32gui.GetForegroundWindow()
+win32gui.ShowWindow(min , win32con.SW_MINIMIZE)
 
 # setting gobal variables
 sock = socket.socket()
@@ -37,12 +41,10 @@ except Exception as e:
 
 infile = None
 escaper = None
-csvpath = 'mongon_chat_history.csv'
-
+csvpath = r"C:\Users\socra\Documents\git-hut_stuff\twitch_interaction_sesaw_project\Twitch_Integration_Project\mongon_chat_history.csv"
 
 # main execution
 def main():
-
     #escape_route_thread = threading.Thread(target = escape_route)
     #escape_route_thread.start()
     initialize_csv_file()
