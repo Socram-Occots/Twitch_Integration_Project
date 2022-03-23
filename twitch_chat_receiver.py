@@ -17,6 +17,8 @@ import sys
 import os
 import requests
 import win32gui, win32con
+import time
+
 
 # hiding python terminal
 min = win32gui.GetForegroundWindow()
@@ -26,7 +28,7 @@ win32gui.ShowWindow(min , win32con.SW_MINIMIZE)
 sock = socket.socket()
 server = 'irc.chat.twitch.tv'
 port = 6667
-nickname = 'Mongon'
+nickname = 'm0ng0n'
 token = None
 channel = '#m0ng0n'
 
@@ -48,7 +50,8 @@ def main():
     #escape_route_thread = threading.Thread(target = escape_route)
     #escape_route_thread.start()
     initialize_csv_file()
-    sock_to_twitch()
+    sock_to = threading.Thread(target = sock_to_twitch)
+    sock_to.start()
     
 
 # connecting to twitch on  a loop until success
@@ -56,22 +59,34 @@ def sock_to_twitch():
     while True:
         try:
             sock.connect((server, port))
-
-            sock.send(f"PASS {token}\n".encode('utf-8'))
-            sock.send(f"NICK {nickname}\n".encode('utf-8'))
-            sock.send(f"JOIN {channel}\n".encode('utf-8'))
             break
         except Exception as ConnectionResetError:
             print("Connection Error... Retrying...\n")
 
+    sock.send(f"PASS {token}\n".encode('utf-8'))
+    sock.send(f"NICK {nickname}\n".encode('utf-8'))
+    sock.send(f"JOIN {channel}\n".encode('utf-8'))
+
+    pingpong = threading.Thread(target = ping)
+    pingpong.start()
     # starting twitch chat collection
     receivingtwitchchat()
+
+
+def ping():
+    while True:
+        time.sleep(540)
+        print("ping")
+        sock.send(f"PING :tmi.twitch.tv\n".encode('utf-8'))
     
 
 # receives twitch chat
 def receivingtwitchchat():
     while True:
-        resp = sock.recv(2048).decode('utf-8').strip()
+        try:
+            resp = sock.recv(2048).decode('utf-8').strip()
+        except ConnectionResetError:
+            continue
         print(resp) # remove print     
 
         # sorts twitch chat and stores it into csv file and onine server
@@ -89,7 +104,6 @@ def initialize_csv_file():
          dfchat = pd.DataFrame(columns = headers)
          dfchat.to_csv(csvpath, index=False)
     
-
 
 # sorting twitch chat into 4 categories the storing in locally and online
 def sorting_each_chat(resp):
