@@ -83,12 +83,8 @@ def ping():
 # receives twitch chat
 def receivingtwitchchat():
     while True:
-        try:
-            resp = sock.recv(2048).decode('utf-8').strip()
-        except ConnectionResetError:
-            continue
-        print(resp) # remove print     
-
+        resp = sock.recv(2048).decode('utf-8').strip()
+        
         # sorts twitch chat and stores it into csv file and onine server
         sorting_each_chat(resp)
     
