@@ -117,7 +117,7 @@ def wordfinder():
         try:
             dfusername = dfchat[(dfchat["username"] == name)]
             dfstring = dfusername[dfusername["message"].str.contains(word,
-                na=False, case=False, regex=True)]
+                na=False, case=False, regex=False)]
             return str(dfstring["message"].count())
         except:
             return "{ERROR Mongon FUCKED UP HIS PROGRAM (failed look-up)}"
